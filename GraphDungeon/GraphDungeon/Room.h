@@ -1,4 +1,5 @@
 #pragma once
+
 class Room
 {
 	public:
@@ -6,7 +7,13 @@ class Room
 		~Room();
 
 	private:
-		bool isVisited;
-		bool shortRoute;	//geeft aan of de kamer onderdeel is van de goedkoopste/kortste route
+		bool visited;
+		bool shortestRoute;		// Is the chamber part of the shortest route?
+
+	public:
+		bool isVisited() const;
+		void setVisited(bool visited);
+		bool isShortestRoute() const;
+		void setShortestRoute(bool shortestRoute);
 };
 

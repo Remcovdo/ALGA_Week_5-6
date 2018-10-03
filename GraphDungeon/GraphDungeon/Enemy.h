@@ -1,15 +1,16 @@
 #pragma once
-#include "Entity.h"
-class Enemy : public Entity
+
+class Enemy
 {
 	public:
 		Enemy(unsigned int level);
 		~Enemy();
 
 	private:
-		const unsigned int level;
+		unsigned int level;
 
 	public:
 		unsigned int getLevel() const;
+		void setLevel(unsigned int level);
 };
 

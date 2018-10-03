@@ -8,7 +8,12 @@ class Hallway
 		~Hallway();
 
 	private:
-		Enemy *enemy;
-		bool isDestroyed;
+		Enemy enemy;
+		bool destroyed;
+
+	public:
+		Enemy getEnemy() const;
+		bool isDestroyed() const;
+		void setDestroyed(bool destroyed);
 };
 

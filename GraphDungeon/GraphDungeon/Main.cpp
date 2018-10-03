@@ -1,11 +1,13 @@
 #include <iostream>
 #include "Dungeon.h"
+#include "Hallway.h"
 
 int main()
 {
-	Dungeon dungeon1;
-	std::cout << "Hoi";
-
-	getchar();
+	Dungeon dungeon;
+	dungeon.displayDungeon();
+	Hallway hallway;
+	std::cout << "Enemy level: " << hallway.getEnemy().getLevel() << std::endl;
+	std::getchar();
 	return 0;
 }

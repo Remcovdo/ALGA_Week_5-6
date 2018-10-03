@@ -1,10 +1,27 @@
 #include "Hallway.h"
 
-Hallway::Hallway()
+Hallway::Hallway() : enemy {10}
 {
-	this->enemy = new Enemy(0);		//tijdelijk voor het compilen
+
 }
 
 Hallway::~Hallway()
 {
+
 }
+
+Enemy Hallway::getEnemy() const
+{
+	return this->enemy;
+}
+
+bool Hallway::isDestroyed() const
+{
+	return this->destroyed;
+}
+
+void Hallway::setDestroyed(bool destroyed)
+{
+	this->destroyed = destroyed;
+}
+

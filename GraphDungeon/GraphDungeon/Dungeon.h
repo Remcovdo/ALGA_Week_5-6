@@ -10,12 +10,14 @@ class Dungeon
 		~Dungeon();
 
 	private:
-		Room start;
-		Room end;
+		unsigned int width;
+		unsigned int height;
+		Room startRoom;
+		Room endRoom;
 
 	public:
-		void changeStartRoom();
-		void changeEndRoom();
+		void setStartRoom(Room startRoom);
+		void setEndRoom(Room endRoom);
 		void displayDungeon();
 };
 
