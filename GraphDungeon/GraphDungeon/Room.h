@@ -11,7 +11,8 @@ class Room
 	private:
 		bool visited;
 		bool shortestRoute;
-		Hallway** hallways;
+		Hallway* hallways[4];
+		char roomType;
 
 	public:
 		bool isVisited() const;

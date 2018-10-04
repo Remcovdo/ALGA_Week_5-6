@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Room.h"
+class Room;
 
 class Hallway
 {
@@ -11,7 +11,7 @@ class Hallway
 	private:
 		unsigned int enemy;
 		bool destroyed;
-		Room** rooms;
+		Room* rooms[2];
 
 	public:
 		unsigned int getEnemy() const;
