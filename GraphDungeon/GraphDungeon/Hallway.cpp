@@ -1,8 +1,12 @@
 #include "Hallway.h"
+#include <cstdlib>
+#include <stdlib.h>
+#include <time.h>
 
-Hallway::Hallway() : enemy {10}, destroyed {false}
+Hallway::Hallway() : destroyed {false}
 {
-
+	srand(time(NULL));
+	this->enemy = (rand() % 10);
 }
 
 Hallway::~Hallway()
