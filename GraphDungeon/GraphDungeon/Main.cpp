@@ -8,6 +8,6 @@ int main()
 	dungeon.displayDungeon();
 	Hallway hallway;
 	std::cout << "Enemy level: " << hallway.getEnemy() << std::endl;
-	std::getchar();
+	getchar();
 	return 0;
 }
