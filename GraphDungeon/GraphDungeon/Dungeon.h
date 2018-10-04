@@ -23,6 +23,6 @@ class Dungeon
 	public:
 		void setStartRoom(Room* startRoom);
 		void setEndRoom(Room* endRoom);
-		void displayDungeon();
+		void displayDungeon(int width, int heigth);
 };
 

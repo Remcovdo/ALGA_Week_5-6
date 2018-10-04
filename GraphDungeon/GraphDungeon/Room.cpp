@@ -1,6 +1,8 @@
 #include "Room.h"
 
-Room::Room()
+#include <iostream>
+
+Room::Room() : roomType {'X'}
 {
 
 }
@@ -28,4 +30,19 @@ bool Room::isShortestRoute() const
 void Room::setShortestRoute(bool shortestRoute)
 {
 	this->shortestRoute = shortestRoute;
+}
+
+char Room::getRoomtype() const
+{
+	return this->roomType;
+}
+
+void Room::setRoomtype(char roomType)
+{
+	this->roomType = roomType;
+}
+
+void Room::printRoom()
+{
+	std::cout << this->roomType;
 }

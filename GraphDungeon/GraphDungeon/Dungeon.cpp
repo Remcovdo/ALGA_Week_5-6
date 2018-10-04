@@ -24,7 +24,9 @@ void Dungeon::setEndRoom(Room* endRoom)
 	this->endRoom = endRoom;
 }
 
-void Dungeon::displayDungeon()
+void Dungeon::displayDungeon(int width, int heigth)
 {
 	std::cout << "Dungeon" << std::endl;
+
+	std::cout << '\t' << '|';
 }
