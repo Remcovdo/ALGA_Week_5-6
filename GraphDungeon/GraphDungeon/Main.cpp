@@ -14,6 +14,9 @@ int main()
 	dungeon.setEndRoom(*dungeon.getRooms().at(28));
 	dungeon.displayDungeon();
 
+	dungeon.setStartRoom(*dungeon.getRooms().at(6));
+	dungeon.displayDungeon(width, heigth);
+
 	Hallway hallway;
 	//std::cout << "Enemy level: " << hallway.getEnemy() << std::endl;
 	getchar();
