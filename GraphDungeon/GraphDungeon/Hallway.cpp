@@ -1,6 +1,6 @@
 #include "Hallway.h"
 
-Hallway::Hallway() : enemy {10}
+Hallway::Hallway() : enemy {10}, destroyed {false}
 {
 
 }
@@ -10,9 +10,14 @@ Hallway::~Hallway()
 
 }
 
-Enemy Hallway::getEnemy() const
+unsigned int Hallway::getEnemy() const
 {
 	return this->enemy;
+}
+
+void Hallway::destroy()
+{
+	this->enemy = 0;
 }
 
 bool Hallway::isDestroyed() const

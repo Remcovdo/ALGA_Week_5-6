@@ -1,5 +1,4 @@
 #pragma once
-#include "Enemy.h"
 
 class Hallway
 {
@@ -8,11 +7,12 @@ class Hallway
 		~Hallway();
 
 	private:
-		Enemy enemy;
+		unsigned int enemy;
 		bool destroyed;
 
 	public:
-		Enemy getEnemy() const;
+		unsigned int getEnemy() const;
+		void destroy();
 		bool isDestroyed() const;
 		void setDestroyed(bool destroyed);
 };

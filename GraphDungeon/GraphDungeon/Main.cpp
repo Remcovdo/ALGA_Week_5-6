@@ -7,7 +7,7 @@ int main()
 	Dungeon dungeon;
 	dungeon.displayDungeon();
 	Hallway hallway;
-	std::cout << "Enemy level: " << hallway.getEnemy().getLevel() << std::endl;
+	std::cout << "Enemy level: " << hallway.getEnemy() << std::endl;
 	std::getchar();
 	return 0;
 }

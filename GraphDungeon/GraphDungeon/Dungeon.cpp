@@ -11,12 +11,12 @@ Dungeon::~Dungeon()
 
 }
 
-void Dungeon::setStartRoom(Room startRoom)
+void Dungeon::setStartRoom(Room* startRoom)
 {
 	this->startRoom = startRoom;
 }
 
-void Dungeon::setEndRoom(Room endRoom)
+void Dungeon::setEndRoom(Room* endRoom)
 {
 	this->endRoom = endRoom;
 }
