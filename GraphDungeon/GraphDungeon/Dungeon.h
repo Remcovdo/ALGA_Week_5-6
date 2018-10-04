@@ -19,10 +19,13 @@ class Dungeon
 		Room* endRoom;
 		std::vector<Room*> rooms;
 		std::vector<Hallway*> hallways;
+		void printConnections(int width);
 
 	public:
 		void setStartRoom(Room* startRoom);
 		void setEndRoom(Room* endRoom);
 		void displayDungeon(int width, int heigth);
+		void addRoom(Room* room);
+		std::vector<Room*> getRooms();
 };
 
