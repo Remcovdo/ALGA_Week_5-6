@@ -4,8 +4,8 @@
 
 Hallway::Hallway() : destroyed {false}
 {
-	srand(time(NULL));
-	this->enemy = (rand() % 10);
+	srand(time(NULL));				//generates randomizer seed with the current time
+	this->enemy = (rand() % 10);	//generates random number (% 10 causes it to be between 0-9)
 }
 
 Hallway::~Hallway()
