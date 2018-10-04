@@ -1,7 +1,5 @@
 #pragma once
 
-#include <map>
-
 #include "Hallway.h"
 
 class Room
@@ -13,7 +11,7 @@ class Room
 	private:
 		bool visited;
 		bool shortestRoute;
-		std::map<Room*, Hallway*> adjecentRooms;
+		Hallway** hallways;
 
 	public:
 		bool isVisited() const;
