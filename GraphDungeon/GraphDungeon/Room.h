@@ -11,16 +11,21 @@ class Room
 	private:
 		bool visited;
 		bool shortestRoute;
-		Hallway* hallways[4];
+		bool startRoom;
+		bool endRoom;
 		char roomType;
+		Hallway* hallways[4];
 
 	public:
 		bool isVisited() const;
-		void setVisited(bool visited);
+		void setVisited();
 		bool isShortestRoute() const;
 		void setShortestRoute(bool shortestRoute);
+		bool isStartRoom() const;
+		void setStartRoom();
+		bool isEndRoom() const;
+		void setEndRoom();
 		char getRoomtype() const;
 		void setRoomtype(char roomType);
-		void printRoom();
 };
 

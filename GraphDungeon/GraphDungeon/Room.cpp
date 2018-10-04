@@ -2,9 +2,9 @@
 
 #include <iostream>
 
-Room::Room() : roomType {'X'}
+Room::Room() : roomType{ 'X' }, startRoom{ false }, endRoom{ false }, visited{ false }, shortestRoute{ false } 
 {
-
+	
 }
 
 Room::~Room()
@@ -17,9 +17,12 @@ bool Room::isVisited() const
 	return this->visited;
 }
 
-void Room::setVisited(bool visited)
+void Room::setVisited()
 {
-	this->visited = visited;
+	if (!startRoom && !endRoom)
+		roomType = '*';
+
+	this->visited = true;
 }
 
 bool Room::isShortestRoute() const
@@ -32,6 +35,34 @@ void Room::setShortestRoute(bool shortestRoute)
 	this->shortestRoute = shortestRoute;
 }
 
+bool Room::isStartRoom() const
+{
+	return this->startRoom;
+}
+
+void Room::setStartRoom()
+{
+	if (endRoom)
+		endRoom = false;
+
+	this->roomType = 'S';
+	this->startRoom = true;
+}
+
+bool Room::isEndRoom() const
+{
+	return this->endRoom;
+}
+
+void Room::setEndRoom()
+{
+	if (startRoom)
+		startRoom = false;
+
+	this->roomType = 'E';
+	this->endRoom = endRoom;
+}
+
 char Room::getRoomtype() const
 {
 	return this->roomType;
@@ -40,9 +71,4 @@ char Room::getRoomtype() const
 void Room::setRoomtype(char roomType)
 {
 	this->roomType = roomType;
-}
-
-void Room::printRoom()
-{
-	std::cout << this->roomType;
 }
