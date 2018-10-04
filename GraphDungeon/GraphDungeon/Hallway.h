@@ -12,7 +12,7 @@ class Hallway
 
 	public:
 		unsigned int getEnemy() const;
-		void destroy();
+		void destroyEnemy();
 		bool isDestroyed() const;
 		void setDestroyed(bool destroyed);
 };

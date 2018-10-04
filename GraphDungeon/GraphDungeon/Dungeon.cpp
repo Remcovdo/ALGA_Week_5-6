@@ -1,5 +1,8 @@
 #include "Dungeon.h"
+
 #include <iostream>
+#include <cstdlib>
+#include <time.h>
 
 Dungeon::Dungeon()
 {

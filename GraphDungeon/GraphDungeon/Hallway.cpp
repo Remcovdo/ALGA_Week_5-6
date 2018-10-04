@@ -1,5 +1,5 @@
 #include "Hallway.h"
-#include <cstdlib>
+
 #include <stdlib.h>
 #include <time.h>
 
@@ -19,7 +19,7 @@ unsigned int Hallway::getEnemy() const
 	return this->enemy;
 }
 
-void Hallway::destroy()
+void Hallway::destroyEnemy()
 {
 	this->enemy = 0;
 }
