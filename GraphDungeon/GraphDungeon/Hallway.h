@@ -11,7 +11,7 @@ class Hallway
 	private:
 		unsigned int enemy;
 		bool destroyed;
-		Room** rooms;
+		Room* room;
 
 	public:
 		unsigned int getEnemy() const;
