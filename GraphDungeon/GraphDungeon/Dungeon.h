@@ -22,7 +22,7 @@ class Dungeon
 		void printConnections(int width);
 
 	public:
-		void setStartRoom(Room* startRoom);
+		void setStartRoom(Room& startRoom);
 		void setEndRoom(Room* endRoom);
 		void displayDungeon(int width, int heigth);
 		void addRoom(Room* room);

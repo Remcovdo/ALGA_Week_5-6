@@ -17,14 +17,19 @@ Dungeon::~Dungeon()
 
 }
 
-void Dungeon::setStartRoom(Room* startRoom)
+void Dungeon::setStartRoom(Room& startRoom)
 {
-	startRoom->setRoomtype('S');
+	if (this->startRoom != nullptr)
+	{
+		this->startRoom->setRoomtype('X');	//setNormalType
+	}
+	startRoom.setStartRoom();
+	this->startRoom = &startRoom;
 }
 
 void Dungeon::setEndRoom(Room* endRoom)
 {
-	endRoom->setRoomtype('E');
+	endRoom->setEndRoom();
 }
 
 void Dungeon::displayDungeon(int width, int heigth)

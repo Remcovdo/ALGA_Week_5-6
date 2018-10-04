@@ -11,8 +11,11 @@ int main()
 	{
 		dungeon.addRoom(new Room());
 	}
-	dungeon.setStartRoom(dungeon.getRooms().at(2));
+	dungeon.setStartRoom(*dungeon.getRooms().at(2));
 	dungeon.setEndRoom(dungeon.getRooms().at(28));
+	dungeon.displayDungeon(width, heigth);
+
+	dungeon.setStartRoom(*dungeon.getRooms().at(6));
 	dungeon.displayDungeon(width, heigth);
 
 	Hallway hallway;
