@@ -5,15 +5,14 @@
 
 int main()
 {
-	int width = 6, heigth = 5;
-	Dungeon dungeon;
-	for (int i = 0; i < width * heigth; i++)
+	Dungeon dungeon(6,5);
+	for (int i = 0; i < 6 * 5; i++)
 	{
 		dungeon.addRoom(new Room());
 	}
-	dungeon.setStartRoom(dungeon.getRooms().at(2));
-	dungeon.setEndRoom(dungeon.getRooms().at(28));
-	dungeon.displayDungeon(width, heigth);
+	dungeon.setStartRoom(*dungeon.getRooms().at(2));
+	dungeon.setEndRoom(*dungeon.getRooms().at(28));
+	dungeon.displayDungeon();
 
 	Hallway hallway;
 	//std::cout << "Enemy level: " << hallway.getEnemy() << std::endl;

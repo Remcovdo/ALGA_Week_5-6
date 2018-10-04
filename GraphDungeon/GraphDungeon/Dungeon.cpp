@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Dungeon::Dungeon()
+Dungeon::Dungeon(unsigned int width, unsigned int height) : width{ width }, height{ height }
 {
 	//generate: alle kamers aanmaken en handgranaten gebruiken
 	//of binary space partition
@@ -17,22 +17,24 @@ Dungeon::~Dungeon()
 
 }
 
-void Dungeon::setStartRoom(Room* startRoom)
+void Dungeon::setStartRoom(Room& room)
 {
-	startRoom->setRoomtype('S');
+	room.setStartRoom();
+	startRoom = &room;
 }
 
-void Dungeon::setEndRoom(Room* endRoom)
+void Dungeon::setEndRoom(Room& room)
 {
-	endRoom->setRoomtype('E');
+	room.setEndRoom();
+	endRoom = &room;
 }
 
-void Dungeon::displayDungeon(int width, int heigth)
+void Dungeon::displayDungeon()
 {
 	cout << "Dungeon" << endl;
 	char type = ' ';
 
-	for (int i = 0; i < heigth; i++)
+	for (int i = 0; i < height; i++)
 	{
 		printConnections(width);
 		for (int j = 0; j < width; j++)
@@ -48,12 +50,10 @@ void Dungeon::displayDungeon(int width, int heigth)
 	}
 }
 
-void Dungeon::addRoom(Room * room)
+void Dungeon::addRoom(Room* room)
 {
-	if (room != nullptr)
-	{
+	if (room != NULL)
 		rooms.push_back(room);
-	}
 }
 
 vector<Room*> Dungeon::getRooms()

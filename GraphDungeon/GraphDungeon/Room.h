@@ -27,5 +27,6 @@ class Room
 		void setEndRoom();
 		char getRoomtype() const;
 		void setRoomtype(char roomType);
+		void setStandardRoom();
 };
 

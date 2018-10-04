@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <map>
 
 #include "Room.h"
 #include "Hallway.h"
@@ -9,7 +8,7 @@
 class Dungeon
 {
 	public:
-		Dungeon();
+		Dungeon(unsigned int width, unsigned int height);
 		~Dungeon();
 
 	private:
@@ -22,9 +21,9 @@ class Dungeon
 		void printConnections(int width);
 
 	public:
-		void setStartRoom(Room* startRoom);
-		void setEndRoom(Room* endRoom);
-		void displayDungeon(int width, int heigth);
+		void setStartRoom(Room& room);
+		void setEndRoom(Room& room);
+		void displayDungeon();
 		void addRoom(Room* room);
 		std::vector<Room*> getRooms();
 };

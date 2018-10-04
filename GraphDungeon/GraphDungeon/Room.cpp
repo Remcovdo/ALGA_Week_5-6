@@ -19,10 +19,10 @@ bool Room::isVisited() const
 
 void Room::setVisited()
 {
+	this->visited = true;
+
 	if (!startRoom && !endRoom)
 		roomType = '*';
-
-	this->visited = true;
 }
 
 bool Room::isShortestRoute() const
@@ -42,11 +42,9 @@ bool Room::isStartRoom() const
 
 void Room::setStartRoom()
 {
-	if (endRoom)
-		endRoom = false;
-
-	this->roomType = 'S';
+	this->endRoom = false;
 	this->startRoom = true;
+	this->roomType = 'S';
 }
 
 bool Room::isEndRoom() const
@@ -56,11 +54,9 @@ bool Room::isEndRoom() const
 
 void Room::setEndRoom()
 {
-	if (startRoom)
-		startRoom = false;
-
+	this->startRoom = false;
+	this->endRoom = true;
 	this->roomType = 'E';
-	this->endRoom = endRoom;
 }
 
 char Room::getRoomtype() const
@@ -71,4 +67,15 @@ char Room::getRoomtype() const
 void Room::setRoomtype(char roomType)
 {
 	this->roomType = roomType;
+}
+
+void Room::setStandardRoom()
+{
+	this->startRoom = false;
+	this->endRoom = false;
+
+	if (!visited)
+		this->roomType = 'X';
+	else
+		this->roomType = '*';
 }
