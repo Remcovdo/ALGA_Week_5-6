@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Room::Room() : roomType{ 'X' }, startRoom{ false }, endRoom{ false }, visited{ false }, shortestRoute{ false } 
+Room::Room() : roomType{ 'X' }, startRoom{ false }, endRoom{ false }, visited{ false }, shortestRoute{ false }, totalHallways { 0 }
 {
 	
 }
@@ -78,4 +78,21 @@ void Room::setStandardRoom()
 		this->roomType = 'X';
 	else
 		this->roomType = '*';
+}
+
+void Room::addHallway()
+{
+	if (totalHallways < 4)
+	{
+		hallways[totalHallways] = new Hallway();
+		totalHallways++;
+	}
+}
+
+Hallway* Room::getHallway(int index) const
+{
+	if (index >= 0 && index <= 3)
+		return this->hallways[index];
+	else
+		return nullptr;
 }

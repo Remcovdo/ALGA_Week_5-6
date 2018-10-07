@@ -8,8 +8,12 @@ using namespace std;
 
 Dungeon::Dungeon(unsigned int width, unsigned int height) : width{ width }, height{ height }
 {
-	//generate: alle kamers aanmaken en handgranaten gebruiken
-	//of binary space partition
+	for (int i = 0; i < (width * height); i++)								// Alle Rooms aanmaken
+		addRoom(new Room());												// Handgranaten of Binary Space Partition
+																		
+	int totalHallways = ((width - 1) * height) + ((height - 1) * width);	// Alle Hallways aanmaken
+	for (int i = 0; i < totalHallways; i++)
+		addHallway(new Hallway());
 }
 
 Dungeon::~Dungeon()
@@ -29,14 +33,14 @@ void Dungeon::setEndRoom(Room& room)
 	endRoom = &room;
 }
 
-void Dungeon::displayDungeon()
+void Dungeon::displayDungeon() const
 {
 	cout << "Dungeon" << endl;
 	char type = ' ';
 
 	for (int i = 0; i < height; i++)
 	{
-		printConnections(width);
+		printConnections();
 		for (int j = 0; j < width; j++)
 		{
 			if (rooms[j+i*width] != NULL)
@@ -50,22 +54,28 @@ void Dungeon::displayDungeon()
 	}
 }
 
-void Dungeon::addRoom(Room* room)
-{
-	if (room != NULL)
-		rooms.push_back(room);
-}
-
-vector<Room*> Dungeon::getRooms()
-{
-	return this->rooms;
-}
-
-void Dungeon::printConnections(int width)
+void Dungeon::printConnections() const
 {
 	for (int i = 0; i < width; i++)
 	{
 		cout << '\t' << '|';
 	}
 	cout << endl;
+}
+
+void Dungeon::addRoom(Room* room)
+{
+	if (room != NULL)
+		rooms.push_back(room);
+}
+
+void Dungeon::addHallway(Hallway* hallway)
+{
+	if (hallway != NULL)
+		hallways.push_back(hallway);
+}
+
+vector<Room*> Dungeon::getRooms() const
+{
+	return rooms;
 }

@@ -5,8 +5,8 @@
 
 Hallway::Hallway() : destroyed {false}
 {
-	srand(time(NULL));				//generates randomizer seed with the current time
-	this->enemy = (rand() % 10);	//generates random number (% 10 causes it to be between 0-9)
+	srand(time(NULL));				// Generates randomizer seed with the current time
+	this->enemy = (rand() % 10);	// Generates random number (% 10 causes it to be between 0-9)
 }
 
 Hallway::~Hallway()
@@ -29,8 +29,16 @@ bool Hallway::isDestroyed() const
 	return this->destroyed;
 }
 
-void Hallway::setDestroyed(bool destroyed)
+void Hallway::destroyHallway()
 {
-	this->destroyed = destroyed;
+	this->destroyed = true;
+}
+
+Room* Hallway::getRoom(int index) const
+{
+	if (index == 0 || index == 1)
+		return this->rooms[index];
+	else
+		return nullptr;
 }
 

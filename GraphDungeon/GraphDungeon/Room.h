@@ -14,6 +14,7 @@ class Room
 		bool startRoom;
 		bool endRoom;
 		char roomType;
+		int totalHallways;
 		Hallway* hallways[4];
 
 	public:
@@ -28,5 +29,7 @@ class Room
 		char getRoomtype() const;
 		void setRoomtype(char roomType);
 		void setStandardRoom();
+		void addHallway();
+		Hallway* getHallway(int index) const;
 };
 

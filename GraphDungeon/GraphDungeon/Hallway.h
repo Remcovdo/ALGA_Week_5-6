@@ -17,6 +17,7 @@ class Hallway
 		unsigned int getEnemy() const;
 		void destroyEnemy();
 		bool isDestroyed() const;
-		void setDestroyed(bool destroyed);
+		void destroyHallway();
+		Room* getRoom(int index) const;
 };
 
