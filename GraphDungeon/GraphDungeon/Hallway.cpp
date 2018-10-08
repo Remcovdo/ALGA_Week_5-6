@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-Hallway::Hallway() : destroyed {false}
+Hallway::Hallway(Room* firstRoom, Room* secondRoom) : destroyed{ false }, rooms{ firstRoom, secondRoom }
 {
 	srand(time(NULL));				// Generates randomizer seed with the current time
 	this->enemy = (rand() % 10);	// Generates random number (% 10 causes it to be between 0-9)

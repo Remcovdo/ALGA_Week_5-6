@@ -26,6 +26,5 @@ class Dungeon
 		void printConnections() const;
 		void addRoom(Room* room);
 		void addHallway(Hallway* hallway);
-		std::vector<Room*> getRooms() const;
 };
 

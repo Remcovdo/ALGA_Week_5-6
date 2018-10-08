@@ -1,24 +1,46 @@
 #include "Dungeon.h"
 
 #include <iostream>
-#include <cstdlib>
-#include <time.h>
-
-using namespace std;
 
 Dungeon::Dungeon(unsigned int width, unsigned int height) : width{ width }, height{ height }
 {
 	for (int i = 0; i < (width * height); i++)								// Alle Rooms aanmaken
 		addRoom(new Room());												// Handgranaten of Binary Space Partition
 																		
-	int totalHallways = ((width - 1) * height) + ((height - 1) * width);	// Alle Hallways aanmaken
-	for (int i = 0; i < totalHallways; i++)
-		addHallway(new Hallway());
+	for (int a = 0; a < height; a++)
+	{
+		for (int b = 0; b < (width - 1); b++)
+		{
+			Room* firstRoom = rooms.at(a * width + b);
+			Room* secondRoom = rooms.at(a * width + b + 1);
+			Hallway* hallway = new Hallway(firstRoom, secondRoom);
+			addHallway(hallway);
+			firstRoom->addHallway(hallway, 1);
+			secondRoom->addHallway(hallway, 3);
+		}
+	}
+
+	for (int a = 0; a < (height - 1); a++)
+	{
+		for (int b = 0; b < width; b++)
+		{
+			Room* firstRoom = rooms.at(a * width + b);
+			Room* secondRoom = rooms.at((a + 1) * width + b);
+			Hallway* hallway = new Hallway(firstRoom, secondRoom);
+			addHallway(hallway);
+			firstRoom->addHallway(hallway, 2);
+			secondRoom->addHallway(hallway, 0);
+		}
+	}
 }
 
 Dungeon::~Dungeon()
 {
+	for (Room* room : rooms)
+		delete room;
 
+	for (Hallway* hallway : hallways)
+		delete hallway;
 }
 
 void Dungeon::setStartRoom(Room& room)
@@ -35,7 +57,7 @@ void Dungeon::setEndRoom(Room& room)
 
 void Dungeon::displayDungeon() const
 {
-	cout << "Dungeon" << endl;
+	std::cout << "Dungeon" << std::endl;
 	char type = ' ';
 
 	for (int i = 0; i < height; i++)
@@ -47,10 +69,10 @@ void Dungeon::displayDungeon() const
 			{
 				type = rooms[j+i*width]->getRoomtype();
 			}
-			cout << "\t" << type;
+			std::cout << "\t" << type;
 		}
 
-		cout << endl;
+		std::cout << std::endl;
 	}
 }
 
@@ -58,9 +80,9 @@ void Dungeon::printConnections() const
 {
 	for (int i = 0; i < width; i++)
 	{
-		cout << '\t' << '|';
+		std::cout << '\t' << '|';
 	}
-	cout << endl;
+	std::cout << std::endl;
 }
 
 void Dungeon::addRoom(Room* room)
@@ -73,9 +95,4 @@ void Dungeon::addHallway(Hallway* hallway)
 {
 	if (hallway != NULL)
 		hallways.push_back(hallway);
-}
-
-vector<Room*> Dungeon::getRooms() const
-{
-	return rooms;
 }

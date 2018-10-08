@@ -14,8 +14,7 @@ class Room
 		bool startRoom;
 		bool endRoom;
 		char roomType;
-		int totalHallways;
-		Hallway* hallways[4];
+		Hallway* hallways[4]; // [0] Room North - [1] Room East - [2] Room South - [3] Room West
 
 	public:
 		bool isVisited() const;
@@ -29,7 +28,7 @@ class Room
 		char getRoomtype() const;
 		void setRoomtype(char roomType);
 		void setStandardRoom();
-		void addHallway();
+		void addHallway(Hallway* hallway, int index);
 		Hallway* getHallway(int index) const;
 };
 
