@@ -1,8 +1,10 @@
 #include "Dungeon.h"
+#include "Player.h"
 
+#include <stdlib.h>
 #include <iostream>
 
-Dungeon::Dungeon(unsigned int width, unsigned int height) : width{ width }, height{ height }
+Dungeon::Dungeon(int width, int height) : width{ width }, height{ height }
 {
 	for (int i = 0; i < (width * height); i++)								// Alle Rooms aanmaken
 		addRoom(new Room());												// Handgranaten of Binary Space Partition
@@ -32,6 +34,15 @@ Dungeon::Dungeon(unsigned int width, unsigned int height) : width{ width }, heig
 			secondRoom->addHallway(hallway, 0);
 		}
 	}
+
+	int startRoom = rand() % rooms.size();
+	int endRoom = rand() % rooms.size();
+
+	while (endRoom == startRoom)
+		endRoom = rand() % rooms.size();	// Make sure that the endroom is a different room
+	
+	setStartRoom(*rooms.at(startRoom));		// Set random startRoom
+	setEndRoom(*rooms.at(endRoom));			// Set random endRoom
 }
 
 Dungeon::~Dungeon()
@@ -43,10 +54,20 @@ Dungeon::~Dungeon()
 		delete hallway;
 }
 
+Room* Dungeon::getStartRoom()
+{
+	return this->startRoom;
+}
+
 void Dungeon::setStartRoom(Room& room)
 {
 	room.setStartRoom();
 	startRoom = &room;
+}
+
+Room* Dungeon::getEndRoom()
+{
+	return this->endRoom;
 }
 
 void Dungeon::setEndRoom(Room& room)
@@ -65,7 +86,7 @@ void Dungeon::displayDungeon() const
 		printConnections();
 		for (int j = 0; j < width; j++)
 		{
-			if (rooms[j+i*width] != NULL)
+			if (rooms[j+i*width] != nullptr)
 			{
 				type = rooms[j+i*width]->getRoomtype();
 			}
@@ -87,12 +108,17 @@ void Dungeon::printConnections() const
 
 void Dungeon::addRoom(Room* room)
 {
-	if (room != NULL)
+	if (room != nullptr)
 		rooms.push_back(room);
 }
 
 void Dungeon::addHallway(Hallway* hallway)
 {
-	if (hallway != NULL)
+	if (hallway != nullptr)
 		hallways.push_back(hallway);
+}
+
+void Dungeon::addPlayer(Player* player)
+{
+	this->player = player;
 }

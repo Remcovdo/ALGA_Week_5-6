@@ -1,12 +1,11 @@
 #include "Hallway.h"
+#include "Room.h"
 
 #include <stdlib.h>
-#include <time.h>
 
-Hallway::Hallway(Room* firstRoom, Room* secondRoom) : destroyed{ false }, rooms{ firstRoom, secondRoom }
+Hallway::Hallway(Room* firstRoom, Room* secondRoom) : enemy { rand() % 10 }, destroyed { false }, rooms{ firstRoom, secondRoom }
 {
-	srand(time(NULL));				// Generates randomizer seed with the current time
-	this->enemy = (rand() % 10);	// Generates random number (% 10 causes it to be between 0-9)
+
 }
 
 Hallway::~Hallway()
@@ -14,7 +13,7 @@ Hallway::~Hallway()
 
 }
 
-unsigned int Hallway::getEnemy() const
+int Hallway::getEnemy() const
 {
 	return this->enemy;
 }
@@ -30,7 +29,7 @@ bool Hallway::isDestroyed() const
 }
 
 void Hallway::destroyHallway()
-{
+{	
 	this->destroyed = true;
 }
 

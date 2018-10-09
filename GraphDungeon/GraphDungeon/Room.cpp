@@ -1,4 +1,5 @@
 #include "Room.h"
+#include "Hallway.h"
 
 #include <iostream>
 

@@ -9,12 +9,12 @@ class Hallway
 		~Hallway();
 
 	private:
-		unsigned int enemy;
+		int enemy;
 		bool destroyed;
 		Room* rooms[2]; // [0] Room at start - [1] Room at end
 
 	public:
-		unsigned int getEnemy() const;
+		int getEnemy() const;
 		void destroyEnemy();
 		bool isDestroyed() const;
 		void destroyHallway();
