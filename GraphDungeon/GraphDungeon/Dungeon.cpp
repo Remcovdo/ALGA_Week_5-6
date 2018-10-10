@@ -122,3 +122,13 @@ void Dungeon::addPlayer(Player* player)
 {
 	this->player = player;
 }
+
+std::vector<Room*> Dungeon::getRooms()
+{
+	return this->rooms;
+}
+
+std::vector<Hallway*> Dungeon::getHallways()
+{
+	return this->hallways;
+}

@@ -14,13 +14,13 @@ int main()
 	srand(time(NULL));
 
 	{
-		Dungeon* dungeon = new Dungeon(5, 3);
+		Dungeon* dungeon = new Dungeon(2, 2);
 		dungeon->displayDungeon();
 
 		Player* player = new Player(dungeon);
 		dungeon->addPlayer(player);
 	
-		player->useGrenade();
+		//player->useGrenade();
 		
 		delete player;
 		delete dungeon;

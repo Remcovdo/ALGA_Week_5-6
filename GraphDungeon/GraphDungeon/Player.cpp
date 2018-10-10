@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "Dungeon.h"
 
-#include <map>
+#include <set>
 
 Player::Player(Dungeon* dungeon) : dungeon { dungeon }
 {
@@ -36,8 +36,34 @@ void Player::destroyRandomHallway()
 
 void Player::createMinimumSpanningTree()
 {
-	std::vector<Hallway*> destroyableHallways;
+	std::set<Room*> visitedRooms;
+	std::set<Hallway*> choosableHallways;
+	visitedRooms.insert(dungeon->getStartRoom());
 
-	for (Hallway* hallway : destroyableHallways)
-		hallway->destroyHallway();
+	for (int i = 0; i < dungeon->getRooms().size() - 1; i++)
+	{
+		choosableHallways.clear();
+		for (Room* visitedRoom : visitedRooms)
+		{
+			for (int i = 0; i < 4; i++)
+				if (visitedRoom->getHallway(i) != nullptr)
+				{
+					Room* firstRoom = visitedRoom->getHallway(i)->getRoom(0);
+					Room* secondRoom = visitedRoom->getHallway(i)->getRoom(1);
+
+					if (!(visitedRooms.count(firstRoom) && visitedRooms.count(secondRoom)))
+						choosableHallways.insert(visitedRoom->getHallway(i));
+				}
+		}
+
+		Hallway* safeRoute = nullptr;
+		for (Hallway* choosableHallway : choosableHallways)
+		{
+			if (safeRoute == nullptr || choosableHallway->getEnemy() < safeRoute->getEnemy())
+				safeRoute = choosableHallway;
+		}
+
+		visitedRooms.insert(safeRoute->getRoom(0));
+		visitedRooms.insert(safeRoute->getRoom(1));
+	}
 }

@@ -33,5 +33,7 @@ class Dungeon
 		void addRoom(Room* room);
 		void addHallway(Hallway* hallway);
 		void addPlayer(Player* player);
+		std::vector<Room*> getRooms();
+		std::vector<Hallway*> getHallways();
 };
 
