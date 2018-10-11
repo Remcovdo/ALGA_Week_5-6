@@ -14,7 +14,7 @@ int main()
 	srand(time(NULL));
 
 	{
-		Dungeon* dungeon = new Dungeon(2, 2);
+		Dungeon* dungeon = new Dungeon(3, 3);
 		dungeon->displayDungeon();
 
 		Player* player = new Player(dungeon);
