@@ -58,10 +58,8 @@ void Player::createMinimumSpanningTree()
 
 		Hallway* safeRoute = nullptr;
 		for (Hallway* choosableHallway : choosableHallways)
-		{
 			if (safeRoute == nullptr || choosableHallway->getEnemy() < safeRoute->getEnemy())
 				safeRoute = choosableHallway;
-		}
 
 		visitedRooms.insert(safeRoute->getRoom(0));
 		visitedRooms.insert(safeRoute->getRoom(1));
