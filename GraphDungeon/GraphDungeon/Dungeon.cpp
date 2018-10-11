@@ -80,30 +80,34 @@ void Dungeon::displayDungeon() const
 {
 	std::cout << "Dungeon" << std::endl;
 	char type = ' ';
+	int horizontalHallways = (width - 1) * height;
 
 	for (int i = 0; i < height; i++)
 	{
-		printConnections();
 		for (int j = 0; j < width; j++)
 		{
 			if (rooms[j+i*width] != nullptr)
 			{
-				type = rooms[j+i*width]->getRoomtype();
+				type = rooms.at(j + i * width)->getRoomtype();
 			}
-			std::cout << "\t" << type;
-		}
+			std::cout << " " << type << " ";
+			if (j != width - 1)
+			{
+				std::cout << hallways.at(j + i * (width - 1))->getEnemy();
+			}
 
+		}
+		std::cout << std::endl;
+
+		for (int k = 0; k < width; k++)
+		{
+			if (i != height - 1)
+			{
+				std::cout << " " << hallways.at(k + i * width + horizontalHallways)->getEnemy() << "  ";
+			}
+		}
 		std::cout << std::endl;
 	}
-}
-
-void Dungeon::printConnections() const
-{
-	for (int i = 0; i < width; i++)
-	{
-		std::cout << '\t' << '|';
-	}
-	std::cout << std::endl;
 }
 
 void Dungeon::addRoom(Room* room)
