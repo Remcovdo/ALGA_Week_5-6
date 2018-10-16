@@ -93,7 +93,10 @@ void Dungeon::displayDungeon() const
 			std::cout << " " << type << " ";
 			if (j != width - 1)
 			{
-				std::cout << hallways.at(j + i * (width - 1))->getEnemy();
+				if (hallways.at(j + i * (width - 1))->isDestroyed())
+					std::cout << " ";
+				else
+					std::cout << hallways.at(j + i * (width - 1))->getEnemy();
 			}
 
 		}
@@ -103,7 +106,10 @@ void Dungeon::displayDungeon() const
 		{
 			if (i != height - 1)
 			{
-				std::cout << " " << hallways.at(k + i * width + horizontalHallways)->getEnemy() << "  ";
+				if (hallways.at(k + i * width + horizontalHallways)->isDestroyed())
+					std::cout << "    ";
+				else
+					std::cout << " " << hallways.at(k + i * width + horizontalHallways)->getEnemy() << "  ";
 			}
 		}
 		std::cout << std::endl;
