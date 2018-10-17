@@ -16,5 +16,6 @@ class Player
 		void useGrenade();
 		void destroyRandomHallway();
 		void createMinimumSpanningTree();
+		void useCompass();
 };
 
