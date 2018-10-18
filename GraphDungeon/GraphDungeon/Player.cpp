@@ -3,7 +3,6 @@
 
 #include <set>
 #include <vector>
-#include <map>
 #include <iostream>
 
 Player::Player(Dungeon* dungeon) : dungeon { dungeon }
