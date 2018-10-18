@@ -3,6 +3,7 @@
 
 #include <set>
 #include <vector>
+#include <map>
 #include <iostream>
 
 Player::Player(Dungeon* dungeon) : dungeon { dungeon }
@@ -57,6 +58,14 @@ void Player::useGrenade()
 	std::cout << std::endl;
 }
 
+void Player::useCompass()
+{
+	Room* startRoom = dungeon->getStartRoom();
+	Room* endRoom = dungeon->getEndRoom();
+
+	displaySafestRoute();
+}
+
 void Player::destroyRandomHallway()
 {
 	int hallway = rand() % 4;
@@ -107,69 +116,38 @@ void Player::createMinimumSpanningTree()
 			hallway->destroyHallway();
 }
 
-void Player::useCompass()
+void Player::displaySafestRoute()
 {
-	Room* startRoom = dungeon->getStartRoom();
-	Room* endRoom = dungeon->getEndRoom();
-	std::vector<Room*> dungeonRooms = dungeon->getRooms();
-	struct dijkstraRoom
+	for (int i = 0; i < safestRoute.size(); i++)
 	{
-		Room* room;
-		Room* prevRoom;
-		int weight;
-	};
-	std::set<dijkstraRoom*> rooms;
+		Room* previousRoom;
+		Room* currentRoom = safestRoute.at(i);
 
+		if (i != 0)
+			previousRoom = safestRoute.at(i - 1);
+		else
+			previousRoom = dungeon->getStartRoom();
 
-	for (Room* room : dungeonRooms)
-	{
-		if (room = startRoom)
-		{
-			dijkstraRoom *dr = new dijkstraRoom();
-			dr->room = room;
-			dr->prevRoom = nullptr;
-			dr->weight = 0;
-			rooms.insert(dr);
-		}
-		else if (rooms.size() != 0)
-		{
-			dijkstraRoom *dr = new dijkstraRoom();
-			dr->room = room;
-			dr->prevRoom = nullptr;
-			dr->weight = 0xFFFFFFFF;
-			rooms.insert(dr);
-		}
-	}
-	
-	for (dijkstraRoom* dR : rooms)
-	{
-		for (int i = 0; i < 4; i++)
-		{
-			if (dR->room->getHallway(i) != nullptr)
+		for (int j = 0; j < 4; j++)
+			if (currentRoom->getHallway(j) != nullptr)
 			{
-				Room* temp = dR->room->getHallway(i)->getRoom(1);
-				for (dijkstraRoom* kamer : rooms)
-				{
-					if (kamer->room == temp)
-					{
-						if (kamer->room->getHallway(i)->getEnemy() < kamer->weight)
-						{
-							kamer->weight = kamer->room->getHallway(i)->getEnemy() + dR->weight;
-							kamer->prevRoom = dR->room;
-						}
-					}
-				}
+				if (j == 0 && currentRoom->getHallway(j)->getRoom(0) == previousRoom)
+					std::cout << "Zuid (" << currentRoom->getHallway(j)->getEnemy()  << ")";
+
+				if (j == 1 && currentRoom->getHallway(j)->getRoom(1) == previousRoom)
+					std::cout << "West (" << currentRoom->getHallway(j)->getEnemy() << ")";
+
+				if (j == 2 && currentRoom->getHallway(j)->getRoom(1) == previousRoom)
+					std::cout << "Noord (" << currentRoom->getHallway(j)->getEnemy() << ")";
+
+				if (j == 3 && currentRoom->getHallway(j)->getRoom(0) == previousRoom)
+					std::cout << "Oost (" << currentRoom->getHallway(j)->getEnemy() << ")";
 			}
-		}
+
+		if (i < safestRoute.size() - 1)
+			std::cout << " - ";
 	}
 
-	//endroom zoeken in de dijkstraRooms en vanaf daar de route teruglopen
-
-	//alle rooms hebben oneindig zwaarte
-		//zwaarte (wat je hebt + edge) minder dan huidige zwaarte van node? + afstand lager?
-			//ja - update zwaarte en vanaf welke room je komt
-	//doen totdat alle rooms zijn gevisit
-
-	//vanaf dan kan je de route teruglopen vanaf de endroom tot er geen previous meer is en het totale gewicht heb je ook
-	//dan heb je alle rooms en moet je de hallways nog in een route opslaan en die returnen
+	std::cout << std::endl;
 }
+
