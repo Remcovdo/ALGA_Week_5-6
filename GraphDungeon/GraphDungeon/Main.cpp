@@ -14,11 +14,12 @@ int main()
 	srand(time(NULL));
 
 	{
-		Dungeon* dungeon = new Dungeon(6, 4);
+		Dungeon* dungeon = new Dungeon(4, 4);
 		Player* player = new Player(dungeon);
 		dungeon->addPlayer(player);
 	
 		dungeon->displayDungeon();
+		player->useCompass();
 		player->useTalisman();
 		player->useGrenade();
 

@@ -117,30 +117,69 @@ void Player::useCompass()
 		Room* room;
 		Room* prevRoom;
 		int weight;
+		bool visited;
 	};
 	std::set<dijkstraRoom*> rooms;
 
 
 	for (Room* room : dungeonRooms)
 	{
-		if (room = startRoom)
+		if (room->isStartRoom())
 		{
 			dijkstraRoom *dr = new dijkstraRoom();
 			dr->room = room;
 			dr->prevRoom = nullptr;
 			dr->weight = 0;
+			dr->visited = false;
 			rooms.insert(dr);
 		}
-		else if (rooms.size() != 0)
+		else
 		{
 			dijkstraRoom *dr = new dijkstraRoom();
 			dr->room = room;
 			dr->prevRoom = nullptr;
-			dr->weight = 0xFFFFFFFF;
+			dr->weight = 1000000;
+			dr->visited = false;
 			rooms.insert(dr);
 		}
 	}
 	
+	for (dijkstraRoom* dR : rooms)
+	{
+		if (dR->room->isStartRoom())
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (dR->room->getHallway(i) != nullptr)
+				{
+					Room* temp = nullptr;
+					for (int j = 0; j < 2; j++)
+					{
+						if (dR->room->getHallway(i)->getRoom(j) != dR->room)
+						{
+							temp = dR->room->getHallway(i)->getRoom(j);
+						}
+					}
+					for (dijkstraRoom* kamer : rooms)
+					{
+						if (kamer->room == temp)
+						{
+							if (kamer->room->getHallway(i) != nullptr)
+							{
+								if (kamer->room->getHallway(i)->getEnemy() < kamer->weight)
+								{
+									kamer->weight = kamer->room->getHallway(i)->getEnemy() + dR->weight;
+									kamer->prevRoom = dR->room;
+								}
+							}
+						}
+					}
+				}
+			}
+			dR->visited = true;
+		}
+	}
+
 	for (dijkstraRoom* dR : rooms)
 	{
 		for (int i = 0; i < 4; i++)
@@ -152,18 +191,28 @@ void Player::useCompass()
 				{
 					if (kamer->room == temp)
 					{
-						if (kamer->room->getHallway(i)->getEnemy() < kamer->weight)
+						if (kamer->room->getHallway(i) != nullptr)
 						{
-							kamer->weight = kamer->room->getHallway(i)->getEnemy() + dR->weight;
-							kamer->prevRoom = dR->room;
+							if (kamer->room->getHallway(i)->getEnemy() < kamer->weight)
+							{
+								kamer->weight = kamer->room->getHallway(i)->getEnemy() + dR->weight;
+								kamer->prevRoom = dR->room;
+							}
 						}
 					}
 				}
 			}
 		}
+		dR->visited = true;
 	}
 
-	//endroom zoeken in de dijkstraRooms en vanaf daar de route teruglopen
+	for (dijkstraRoom* dR : rooms)
+	{
+		if (dR->room->isEndRoom())
+		{
+			//endroom zoeken in de dijkstraRooms en vanaf daar de route teruglopen
+		}
+	}
 
 	//alle rooms hebben oneindig zwaarte
 		//zwaarte (wat je hebt + edge) minder dan huidige zwaarte van node? + afstand lager?
