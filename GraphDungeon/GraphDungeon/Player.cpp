@@ -199,7 +199,7 @@ void Player::createMinimumSpanningTree()
 		choosableHallways.clear();
 		for (Room* visitedRoom : visitedRooms)
 		{
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 4; i++)							
 				if (visitedRoom->getHallway(i) != nullptr && !visitedRoom->getHallway(i)->isDestroyed())
 				{
 					Room* firstRoom = visitedRoom->getHallway(i)->getRoom(0);
