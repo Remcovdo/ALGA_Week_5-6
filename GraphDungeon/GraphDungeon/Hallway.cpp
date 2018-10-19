@@ -18,6 +18,11 @@ int Hallway::getEnemy() const
 	return this->enemy;
 }
 
+void Hallway::setEnemy(int enemy) 
+{
+	this->enemy = enemy;
+}
+
 void Hallway::destroyEnemy()
 {
 	this->enemy = 0;

@@ -15,6 +15,7 @@ class Hallway
 
 	public:
 		int getEnemy() const;
+		void setEnemy(int enemy);
 		void destroyEnemy();
 		bool isDestroyed() const;
 		void destroyHallway();

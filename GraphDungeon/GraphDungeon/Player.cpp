@@ -2,10 +2,12 @@
 #include "Dungeon.h"
 
 #include <set>
+#include <map>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
-Player::Player(Dungeon* dungeon) : dungeon { dungeon }
+Player::Player(Dungeon* dungeon) : dungeon{ dungeon }
 {
 
 }
@@ -22,7 +24,7 @@ void Player::useTalisman()
 	std::set<Room*> visitedRooms;
 	visitedRooms.insert(startRoom);
 	int stepsToEndRoom = 0;
-	
+
 	while (true)	// Keep searching for the endRoom unitl it's found
 	{
 		for (Room* room : visitedRooms)
@@ -61,118 +63,55 @@ void Player::useCompass()
 {
 	Room* startRoom = dungeon->getStartRoom();
 	Room* endRoom = dungeon->getEndRoom();
-	std::vector<Room*> dungeonRooms = dungeon->getRooms();
-	struct dijkstraRoom
-	{
-		Room* room;
-		Room* prevRoom;
-		int weight;
-		bool visited;
-	};
-	std::set<dijkstraRoom*> rooms;
+	std::map<Room*, int> costRooms;
+	std::map<Room*, Room*> previousRooms;
+	std::vector<Room*> rooms = dungeon->getRooms();
 
-
-	for (Room* room : dungeonRooms)
+	for (Room* room : rooms)
 	{
-		if (room->isStartRoom())
-		{
-			dijkstraRoom *dr = new dijkstraRoom();
-			dr->room = room;
-			dr->prevRoom = nullptr;
-			dr->weight = 0;
-			dr->visited = false;
-			rooms.insert(dr);
-		}
-		else
-		{
-			dijkstraRoom *dr = new dijkstraRoom();
-			dr->room = room;
-			dr->prevRoom = nullptr;
-			dr->weight = 1000000;
-			dr->visited = false;
-			rooms.insert(dr);
-		}
+		costRooms.insert(std::make_pair(room, 0xFFFF));
+		previousRooms.insert(std::make_pair(room, nullptr));
 	}
 
-	for (dijkstraRoom* dR : rooms)
-	{
-		if (dR->room->isStartRoom())
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				if (dR->room->getHallway(i) != nullptr)
-				{
-					Room* temp = nullptr;
-					for (int j = 0; j < 2; j++)
-					{
-						if (dR->room->getHallway(i)->getRoom(j) != dR->room)
-						{
-							temp = dR->room->getHallway(i)->getRoom(j);
-						}
-					}
-					for (dijkstraRoom* kamer : rooms)
-					{
-						if (kamer->room == temp)
-						{
-							if (kamer->room->getHallway(i) != nullptr)
-							{
-								if (kamer->room->getHallway(i)->getEnemy() < kamer->weight)
-								{
-									kamer->weight = kamer->room->getHallway(i)->getEnemy() + dR->weight;
-									kamer->prevRoom = dR->room;
-								}
-							}
-						}
-					}
-				}
-			}
-			dR->visited = true;
-		}
-	}
+	costRooms[startRoom] = 0;
 
-	for (dijkstraRoom* dR : rooms)
+	while (!rooms.empty())
 	{
+		Room* smallestDistance = nullptr;
+		for (auto& pair : costRooms)
+		{
+			if (std::find(rooms.begin(), rooms.end(), pair.first) != rooms.end() && (smallestDistance == nullptr || pair.second < costRooms.find(smallestDistance)->second))
+				smallestDistance = pair.first;
+		}
+			
+		rooms.erase(std::remove(rooms.begin(), rooms.end(), smallestDistance), rooms.end());
+
 		for (int i = 0; i < 4; i++)
 		{
-			if (dR->room->getHallway(i) != nullptr)
+			if (smallestDistance->getHallway(i) != nullptr && !smallestDistance->getHallway(i)->isDestroyed())
 			{
-				Room* temp = dR->room->getHallway(i)->getRoom(1);
-				for (dijkstraRoom* kamer : rooms)
+				Room* neighborRoom = smallestDistance->getHallway(i)->getRoom(0) != smallestDistance ? smallestDistance->getHallway(i)->getRoom(0) : smallestDistance->getHallway(i)->getRoom(1);
+				int cost = costRooms.find(smallestDistance)->second + smallestDistance->getHallway(i)->getEnemy();
+				if (cost < costRooms.find(neighborRoom)->second)
 				{
-					if (kamer->room == temp)
-					{
-						if (kamer->room->getHallway(i) != nullptr)
-						{
-							if (kamer->room->getHallway(i)->getEnemy() < kamer->weight)
-							{
-								kamer->weight = kamer->room->getHallway(i)->getEnemy() + dR->weight;
-								kamer->prevRoom = dR->room;
-							}
-						}
-					}
+					costRooms[neighborRoom] = cost;
+					previousRooms[neighborRoom] = smallestDistance;
 				}
 			}
 		}
-		dR->visited = true;
 	}
 
-	for (dijkstraRoom* dR : rooms)
+	Room* room = endRoom;
+	safestRoute.clear();
+
+	while (room != startRoom)
 	{
-		if (dR->room->isEndRoom())
-		{
-			//endroom zoeken in de dijkstraRooms en vanaf daar de route teruglopen
-		}
+		safestRoute.insert(safestRoute.begin(), room);
+		room = previousRooms.find(room)->second;
 	}
-
-	//alle rooms hebben oneindig zwaarte
-		//zwaarte (wat je hebt + edge) minder dan huidige zwaarte van node? + afstand lager?
-			//ja - update zwaarte en vanaf welke room je komt
-	//doen totdat alle rooms zijn gevisit
-
-	//vanaf dan kan je de route teruglopen vanaf de endroom tot er geen previous meer is en het totale gewicht heb je ook
-	//dan heb je alle rooms en moet je de hallways nog in een route opslaan en die returnen
 
 	displaySafestRoute();
+	std::cout << std::endl;
 }
 
 void Player::destroyRandomHallway()
@@ -264,5 +203,19 @@ void Player::displaySafestRoute()
 
 void Player::makeEnemiesStronger()
 {
+	Room* previousRoom = dungeon->getStartRoom();
 
+	for (Room* room : safestRoute)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (room->getHallway(i) != nullptr && (room->getHallway(i)->getRoom(0) == previousRoom || room->getHallway(i)->getRoom(1) == previousRoom))
+				room->getHallway(i)->setEnemy(9);
+		}
+
+		previousRoom = room;
+	}
+
+	std::cout << "De veiligste route is nu niet meer zo veilig..." << std::endl;
+	std::cout << std::endl;
 }
