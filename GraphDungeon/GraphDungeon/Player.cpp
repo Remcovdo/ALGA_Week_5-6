@@ -61,6 +61,116 @@ void Player::useCompass()
 {
 	Room* startRoom = dungeon->getStartRoom();
 	Room* endRoom = dungeon->getEndRoom();
+	std::vector<Room*> dungeonRooms = dungeon->getRooms();
+	struct dijkstraRoom
+	{
+		Room* room;
+		Room* prevRoom;
+		int weight;
+		bool visited;
+	};
+	std::set<dijkstraRoom*> rooms;
+
+
+	for (Room* room : dungeonRooms)
+	{
+		if (room->isStartRoom())
+		{
+			dijkstraRoom *dr = new dijkstraRoom();
+			dr->room = room;
+			dr->prevRoom = nullptr;
+			dr->weight = 0;
+			dr->visited = false;
+			rooms.insert(dr);
+		}
+		else
+		{
+			dijkstraRoom *dr = new dijkstraRoom();
+			dr->room = room;
+			dr->prevRoom = nullptr;
+			dr->weight = 1000000;
+			dr->visited = false;
+			rooms.insert(dr);
+		}
+	}
+
+	for (dijkstraRoom* dR : rooms)
+	{
+		if (dR->room->isStartRoom())
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (dR->room->getHallway(i) != nullptr)
+				{
+					Room* temp = nullptr;
+					for (int j = 0; j < 2; j++)
+					{
+						if (dR->room->getHallway(i)->getRoom(j) != dR->room)
+						{
+							temp = dR->room->getHallway(i)->getRoom(j);
+						}
+					}
+					for (dijkstraRoom* kamer : rooms)
+					{
+						if (kamer->room == temp)
+						{
+							if (kamer->room->getHallway(i) != nullptr)
+							{
+								if (kamer->room->getHallway(i)->getEnemy() < kamer->weight)
+								{
+									kamer->weight = kamer->room->getHallway(i)->getEnemy() + dR->weight;
+									kamer->prevRoom = dR->room;
+								}
+							}
+						}
+					}
+				}
+			}
+			dR->visited = true;
+		}
+	}
+
+	for (dijkstraRoom* dR : rooms)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (dR->room->getHallway(i) != nullptr)
+			{
+				Room* temp = dR->room->getHallway(i)->getRoom(1);
+				for (dijkstraRoom* kamer : rooms)
+				{
+					if (kamer->room == temp)
+					{
+						if (kamer->room->getHallway(i) != nullptr)
+						{
+							if (kamer->room->getHallway(i)->getEnemy() < kamer->weight)
+							{
+								kamer->weight = kamer->room->getHallway(i)->getEnemy() + dR->weight;
+								kamer->prevRoom = dR->room;
+							}
+						}
+					}
+				}
+			}
+		}
+		dR->visited = true;
+	}
+
+	for (dijkstraRoom* dR : rooms)
+	{
+		if (dR->room->isEndRoom())
+		{
+			//endroom zoeken in de dijkstraRooms en vanaf daar de route teruglopen
+		}
+	}
+
+	//alle rooms hebben oneindig zwaarte
+		//zwaarte (wat je hebt + edge) minder dan huidige zwaarte van node? + afstand lager?
+			//ja - update zwaarte en vanaf welke room je komt
+	//doen totdat alle rooms zijn gevisit
+
+	//vanaf dan kan je de route teruglopen vanaf de endroom tot er geen previous meer is en het totale gewicht heb je ook
+	//dan heb je alle rooms en moet je de hallways nog in een route opslaan en die returnen
 
 	displaySafestRoute();
 }
@@ -90,7 +200,7 @@ void Player::createMinimumSpanningTree()
 		for (Room* visitedRoom : visitedRooms)
 		{
 			for (int i = 0; i < 4; i++)
-				if (visitedRoom->getHallway(i) != nullptr)
+				if (visitedRoom->getHallway(i) != nullptr && !visitedRoom->getHallway(i)->isDestroyed())
 				{
 					Room* firstRoom = visitedRoom->getHallway(i)->getRoom(0);
 					Room* secondRoom = visitedRoom->getHallway(i)->getRoom(1);
@@ -117,6 +227,8 @@ void Player::createMinimumSpanningTree()
 
 void Player::displaySafestRoute()
 {
+	std::cout << "Het kompas trilt in je hand en projecteert in lichtgevende letters op de muur:" << std::endl;
+
 	for (int i = 0; i < safestRoute.size(); i++)
 	{
 		Room* previousRoom;
@@ -150,3 +262,7 @@ void Player::displaySafestRoute()
 	std::cout << std::endl;
 }
 
+void Player::makeEnemiesStronger()
+{
+
+}

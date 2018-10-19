@@ -24,5 +24,6 @@ class Player
 		void useTalisman();
 		void useGrenade();
 		void useCompass();
+		void makeEnemiesStronger();
 };
 

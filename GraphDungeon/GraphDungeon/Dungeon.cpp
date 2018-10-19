@@ -78,7 +78,6 @@ void Dungeon::setEndRoom(Room& room)
 
 void Dungeon::displayDungeon() const
 {
-	std::cout << "Dungeon" << std::endl;
 	char type = ' ';
 	int horizontalHallways = (width - 1) * height;
 
