@@ -29,6 +29,7 @@ class Dungeon
 		Room* getEndRoom();
 		void setEndRoom(Room& room);
 		void displayDungeon() const;
+		void newStartAndEndRoom();
 		void addRoom(Room* room);
 		void addHallway(Hallway* hallway);
 		void addPlayer(Player* player);

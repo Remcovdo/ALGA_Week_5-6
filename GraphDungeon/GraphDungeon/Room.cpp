@@ -23,7 +23,7 @@ void Room::setVisited()
 	this->visited = true;
 
 	if (!startRoom && !endRoom)
-		roomType = '*';
+		roomType = 'V';
 }
 
 bool Room::isShortestRoute() const
@@ -31,9 +31,12 @@ bool Room::isShortestRoute() const
 	return this->shortestRoute;
 }
 
-void Room::setShortestRoute(bool shortestRoute)
+void Room::setShortestRoute()
 {
-	this->shortestRoute = shortestRoute;
+	this->shortestRoute = true;
+	
+	if (!startRoom && !endRoom)
+		roomType = 'G';
 }
 
 bool Room::isStartRoom() const
@@ -74,11 +77,9 @@ void Room::setStandardRoom()
 {
 	this->startRoom = false;
 	this->endRoom = false;
+	this->visited = false;
 
-	if (!visited)
-		this->roomType = 'X';
-	else
-		this->roomType = '*';
+	this->roomType = 'X';
 }
 
 void Room::addHallway(Hallway* hallway, int index)

@@ -23,26 +23,29 @@ void Player::useTalisman()
 	Room* endRoom = dungeon->getEndRoom();
 	std::set<Room*> visitedRooms;
 	visitedRooms.insert(startRoom);
-	int stepsToEndRoom = 0;
+	int stepsToEndRoom = 1;
 
 	while (true)	// Keep searching for the endRoom unitl it's found
 	{
-		for (Room* room : visitedRooms)
-			if (room == endRoom)
-			{
-				std::cout << "De talisman fluistert dat het eindpunt " << stepsToEndRoom << " stap(pen) van u vandaan is!" << std::endl;
-				std::cout << std::endl;
-				return;
-			}
-
 		std::set<Room*> tempVisitedRooms = visitedRooms;
 
 		for (Room* room : tempVisitedRooms)
 			for (int i = 0; i < 4; i++)
 				if (room->getHallway(i) != nullptr && !room->getHallway(i)->isDestroyed())
 				{
-					visitedRooms.insert(room->getHallway(i)->getRoom(0));
-					visitedRooms.insert(room->getHallway(i)->getRoom(1));
+					if (room->getHallway(i)->getRoom(0) == endRoom || room->getHallway(i)->getRoom(1) == endRoom)
+					{
+						std::cout << "De talisman fluistert dat het eindpunt " << stepsToEndRoom << " stap(pen) van u vandaan is!" << std::endl;
+						std::cout << std::endl;
+						return;
+					}
+					else
+					{
+						visitedRooms.insert(room->getHallway(i)->getRoom(0));
+						visitedRooms.insert(room->getHallway(i)->getRoom(1));
+						room->getHallway(i)->getRoom(0)->setVisited();
+						room->getHallway(i)->getRoom(1)->setVisited();
+					}
 				}
 
 		stepsToEndRoom++;
@@ -51,6 +54,12 @@ void Player::useTalisman()
 
 void Player::useGrenade()
 {
+	std::vector<Room*> rooms = dungeon->getRooms();
+
+	for (Room* room : rooms)
+		if (room != dungeon->getStartRoom() && room != dungeon->getEndRoom())
+			room->setStandardRoom();
+
 	destroyRandomHallway();
 	createMinimumSpanningTree();
 
@@ -101,12 +110,17 @@ void Player::useCompass()
 		}
 	}
 
+	for (Room* room : safestRoute)
+		if (room != endRoom)
+			room->setStandardRoom();
+
 	Room* room = endRoom;
 	safestRoute.clear();
 
 	while (room != startRoom)
 	{
 		safestRoute.insert(safestRoute.begin(), room);
+		room->setShortestRoute();
 		room = previousRooms.find(room)->second;
 	}
 

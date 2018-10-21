@@ -6,8 +6,8 @@
 
 Dungeon::Dungeon(int width, int height) : width{ width }, height{ height }
 {
-	for (int i = 0; i < (width * height); i++)								// Alle Rooms aanmaken
-		addRoom(new Room());												// Handgranaten of Binary Space Partition
+	for (int i = 0; i < (width * height); i++)								
+		addRoom(new Room());												
 																		
 	for (int a = 0; a < height; a++)
 	{
@@ -35,14 +35,7 @@ Dungeon::Dungeon(int width, int height) : width{ width }, height{ height }
 		}
 	}
 
-	int startRoom = rand() % rooms.size();
-	int endRoom = rand() % rooms.size();
-
-	while (endRoom == startRoom)
-		endRoom = rand() % rooms.size();	// Make sure that the endroom is a different room
-	
-	setStartRoom(*rooms.at(startRoom));		// Set random startRoom
-	setEndRoom(*rooms.at(endRoom));			// Set random endRoom
+	newStartAndEndRoom();
 }
 
 Dungeon::~Dungeon()
@@ -113,6 +106,23 @@ void Dungeon::displayDungeon() const
 		}
 		std::cout << std::endl;
 	}
+}
+
+void Dungeon::newStartAndEndRoom()
+{
+	if (startRoom != nullptr)
+		startRoom->setStandardRoom();
+	if (endRoom != nullptr)
+		endRoom->setStandardRoom();
+
+	int startRoom = rand() % rooms.size();
+	int endRoom = rand() % rooms.size();
+
+	while (endRoom == startRoom)
+		endRoom = rand() % rooms.size();	// Make sure that the endroom is a different room
+
+	setStartRoom(*rooms.at(startRoom));		// Set random startRoom
+	setEndRoom(*rooms.at(endRoom));			// Set random endRoom
 }
 
 void Dungeon::addRoom(Room* room)

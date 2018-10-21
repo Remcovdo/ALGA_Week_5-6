@@ -20,7 +20,7 @@ class Room
 		bool isVisited() const;
 		void setVisited();
 		bool isShortestRoute() const;
-		void setShortestRoute(bool shortestRoute);
+		void setShortestRoute();
 		bool isStartRoom() const;
 		void setStartRoom();
 		bool isEndRoom() const;

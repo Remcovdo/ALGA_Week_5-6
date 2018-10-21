@@ -28,6 +28,7 @@ class Application
 		void useGrenade();
 		void useCompass();
 		void makeEnemiesStronger();
+		void newStartAndEndRoom();
 		void quit();
 
 		void displayWarning();

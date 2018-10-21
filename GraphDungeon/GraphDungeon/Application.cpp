@@ -20,7 +20,7 @@ void Application::start()
 	while (running)
 	{
 		displayOptions();
-		selectedOption = getUserInput("Optie: ", 1, 7);
+		selectedOption = getUserInput("Optie: ", 1, 8);
 		std::cout << std::endl;
 		handleOption();
 	}
@@ -35,7 +35,8 @@ void Application::displayOptions()
 	std::cout << "- 4: Granaat gooien" << std::endl;
 	std::cout << "- 5: Kompas gebruiken" << std::endl;
 	std::cout << "- 6: Tegenstanders sterker maken (Cheat)" << std::endl;
-	std::cout << "- 7: Quit" << std::endl;
+	std::cout << "- 7: Nieuwe random start- en eindkamer" << std::endl;
+	std::cout << "- 8: Quit" << std::endl;
 }
 
 int Application::getUserInput(std::string message, int min, int max)
@@ -66,7 +67,8 @@ void Application::handleOption()
 		case 4: useGrenade(); break;
 		case 5: useCompass(); break;
 		case 6: makeEnemiesStronger(); break;
-		case 7: quit(); break;
+		case 7: newStartAndEndRoom(); break;
+		case 8: quit(); break;
 	}
 }
 
@@ -124,6 +126,14 @@ void Application::makeEnemiesStronger()
 {
 	if (player != nullptr)
 		player->makeEnemiesStronger();
+	else
+		displayWarning();
+}
+
+void Application::newStartAndEndRoom()
+{
+	if (dungeon != nullptr)
+		dungeon->newStartAndEndRoom();
 	else
 		displayWarning();
 }
